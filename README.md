@@ -1,7 +1,6 @@
 BT-Framework
 ============
-BT Framework 2 is the next version of BT Framework.
-BT Framework 2 is a code-centric behavior tree framework for Unity3d.
+BT Framework 2 is the next version of BT Framework, a code-centric behavior tree framework for Unity3d.<br>
 It is for those who like to do most of the things in code.
 
 ### Features
