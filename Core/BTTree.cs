@@ -7,9 +7,11 @@ namespace BT {
 		private BTNode _root;
 		protected BTDatabase _database;
 
+		public BTNode root {get {return _root;}}
+
 
 		void Start () {
-			Init();
+			_root = Init();
 
 			_root.Activate(_database);
 		}
@@ -20,15 +22,13 @@ namespace BT {
 		}
 
 
-		protected void SetRoot (BTNode node) {
-			_root = node;
-		}
-
-		protected virtual void Init () {
+		public virtual BTNode Init () {
 			_database = GetComponent<BTDatabase>();
 			if (_database == null) {
 				_database = gameObject.AddComponent<BTDatabase>();
 			}
+
+			return null;
 		}
 	}
 

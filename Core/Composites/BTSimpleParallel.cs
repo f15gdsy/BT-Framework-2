@@ -10,6 +10,8 @@ namespace BT {
 		private List<BTNode> _runningChildren;
 		private bool _shouldClearPrimaryChild = true;
 
+		public BTNode primaryChild {get {return _primaryChild;}}
+
 
 		public void SetPrimaryChild (BTNode node, bool selectForClear = false) {
 			if (_primaryChild != null) {

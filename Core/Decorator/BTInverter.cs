@@ -5,7 +5,7 @@ namespace BT {
 
 	public class BTInverter : BTDecorator {
 
-		public BTInverter (BTNode child) : base (child) {}
+		public BTInverter (BTNode child = null) : base (child) {}
 
 		public override BTResult Tick () {
 			switch (child.Tick()) {
