@@ -5,11 +5,12 @@ using BT;
 
 public class BTTreeWindow: EditorWindow {
 
-	BTTree tree;
-	BTNode _root;
+	private GameObject _go;
+
+	private BTTree _previousTree;
 	private BTNodeInfo _info;
-	public Vector2 size = new Vector2(100, 100);
-	public Vector2 offset = new Vector2(150, 150);
+	private Vector2 _size = new Vector2(100, 100);
+	private Vector2 _offset = new Vector2(150, 150);
 	private int _currentWindowId;
 	private Dictionary<int, int> _levelToCount;
 
@@ -18,22 +19,29 @@ public class BTTreeWindow: EditorWindow {
 	
 	[MenuItem("Window/BTTree")]
 	static void ShowEditor() {
-		BTTreeWindow editor = EditorWindow.GetWindow<BTTreeWindow>();
-		editor.Init();
+		EditorWindow.GetWindow<BTTreeWindow>();
 	}
-	
-	public void Init() {
-		tree = GameObject.FindObjectOfType<TestBTWindow>();
-		if (_root == null) {
-			Debug.Log("Init");
-			_root = tree.Init();
-			_levelToCount = new Dictionary<int, int>();
-			_info = ParseNodeInfo(_root, 0, 0);
-		}
+
+	void OnInspectorUpdate () {
+		Repaint();
 	}
 	
 	void OnGUI() {
-		_currentWindowId = 0;
+		_go = (GameObject) EditorGUI.ObjectField(new Rect(position.xMax - 350, position.yMin-40, 300, 20), "BTTree GameObject", _go, typeof(GameObject), true);
+
+		BTTree tree;
+		if (_go == null || (tree = _go.GetComponent<BTTree>()) == null) {
+			EditorGUI.LabelField(new Rect(position.xMax - 350, position.y-17, 500, 20), "Find a GameObject with component inherited from BTTree.");
+			return ;
+		}
+
+		if (_previousTree == null || _previousTree.GetType() != tree.GetType()) {
+			BTNode root = tree.Init();
+			_levelToCount = new Dictionary<int, int>();
+			_info = ParseNodeInfo(root, 0, 0);
+
+			_previousTree = tree;
+		}
 
 		int maxCount = 0;
 		foreach (int count in _levelToCount.Values) {
@@ -42,13 +50,13 @@ public class BTTreeWindow: EditorWindow {
 			}
 		}
 
-		EditorWindow editor = EditorWindow.GetWindow<BTTreeWindow>();
-		_scrollPosition = GUI.BeginScrollView(new Rect(0, 0, editor.position.width - 1, editor.position.height - 1), 
+		_scrollPosition = GUI.BeginScrollView(new Rect(0, 0, position.width - 1, position.height - 1), 
 		                                      _scrollPosition,
-		                                      new Rect(0, 0, maxCount * offset.x + 50, _levelToCount.Keys.Count * offset.y + 50));
+		                                      new Rect(0, 0, maxCount * _offset.x + 50, _levelToCount.Keys.Count * _offset.y + 50));
 
 		BeginWindows();
 
+		_currentWindowId = 0;
 		DrawNodeInfo(_info, null);
 
 		EndWindows();
@@ -112,11 +120,11 @@ public class BTTreeWindow: EditorWindow {
 	}
 
 	private Rect DrawNodeInfo (BTNodeInfo info, BTNodeInfo parentInfo) {
-		float selfX = info.indexInParent * offset.x;
+		float selfX = info.indexInParent * _offset.x;
 		float parentX = 0;
 
 		if (info.indexInParent > 0) {
-			selfX += (parentInfo.childrenInfo[info.indexInParent - 1].maxNodeSize - 1) * offset.x;
+			selfX += (parentInfo.childrenInfo[info.indexInParent - 1].maxNodeSize - 1) * _offset.x;
 		}
 		if (parentInfo != null) {
 			parentX = parentInfo.positionX;
@@ -126,9 +134,9 @@ public class BTTreeWindow: EditorWindow {
 		}
 		 
 		Rect rect = new Rect(selfX + parentX,
-		                     info.level * offset.y,
-		                     size.x, 
-		                     size.y);
+		                     info.level * _offset.y,
+		                     _size.x, 
+		                     _size.y);
 
 		info.positionX = selfX + parentX;
 
