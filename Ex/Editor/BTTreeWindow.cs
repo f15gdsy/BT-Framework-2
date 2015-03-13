@@ -9,8 +9,8 @@ public class BTTreeWindow: EditorWindow {
 
 	private BTTree _previousTree;
 	private BTNodeInfo _info;
-	private Vector2 _size = new Vector2(100, 100);
-	private Vector2 _offset = new Vector2(150, 150);
+	private Vector2 _size = new Vector2(200, 50);
+	private Vector2 _offset = new Vector2(250, 100);
 	private int _currentWindowId;
 	private Dictionary<int, int> _levelToCount;
 
@@ -25,7 +25,11 @@ public class BTTreeWindow: EditorWindow {
 	void OnInspectorUpdate () {
 		Repaint();
 	}
-	
+
+	void OnEnable () {
+		_previousTree = null;
+	}
+
 	void OnGUI() {
 		_go = (GameObject) EditorGUI.ObjectField(new Rect(position.xMax - 350, position.yMin-40, 300, 20), "BTTree GameObject", _go, typeof(GameObject), true);
 
@@ -145,7 +149,10 @@ public class BTTreeWindow: EditorWindow {
 			DrawPolygonLine(rect, childRect);
 		}
 
-		GUI.Window(_currentWindowId++, rect, DoWindow, info.node.GetType().ToString());
+		string name = info.node.name != null ? info.node.name : info.node.GetType().ToString();
+		string[] nameParts = name.Split('.');
+
+		GUI.Window(_currentWindowId++, rect, DoWindow, nameParts[nameParts.Length-1]);
 
 		return rect;
 	}

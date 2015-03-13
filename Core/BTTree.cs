@@ -13,6 +13,9 @@ namespace BT {
 		void Start () {
 			_root = Init();
 
+			if (_root.name == null) {
+				_root.name = "Root";
+			}
 			_root.Activate(_database);
 		}
 		

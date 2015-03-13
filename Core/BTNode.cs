@@ -9,6 +9,7 @@ namespace BT {
 		protected BTDatabase _database;
 
 		public string name {get; set;}
+		public string details {get; set;}
 
 
 		public virtual void Activate (BTDatabase database) {
