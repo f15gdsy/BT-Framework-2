@@ -26,6 +26,14 @@ namespace BT {
 			this.reevaludateEveryTick = reevaluateEveryTick;
 		}
 
+		public override void Activate (BTDatabase database) {
+			base.Activate (database);
+
+			foreach (BTConditional conditional in _conditionals) {
+				conditional.Activate(database);
+			}
+		}
+
 		public override BTResult Tick () {
 			if (_previousResult != BTResult.Running || reevaludateEveryTick) {
 				switch (logicOpt) {
