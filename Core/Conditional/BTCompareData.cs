@@ -27,6 +27,9 @@ namespace BT {
 		}
 
 		public override bool Check () {
+			if (_rhs == null) {
+				return _database.CheckDataNull(_readDataId);
+			}
 			return _database.GetData<T>(_readDataId).Equals(_rhs);
 		}
 	}
