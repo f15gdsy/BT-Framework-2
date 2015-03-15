@@ -45,6 +45,18 @@ namespace BT {
 		public void SetData<T> (int dataId, T data) {
 			_dataList[dataId] = (object) data;
 		}
+
+		public bool CheckDataNull (string dataName) {
+			int dataId = IndexOfDataId(dataName);
+			if (dataId == -1) Debug.LogError("BTDatabase: Data for " + dataName + " does not exist!");
+
+			return CheckDataNull(dataId);
+		}
+
+		public bool CheckDataNull (int dataId) {
+			// Despite == test, Equal test helps the case that the reference is Monobahvior and is destroyed.
+			return _dataList[dataId] == null || _dataList[dataId].Equals(null);
+		}
 		
 		public int GetDataId (string dataName) {
 			int dataId = IndexOfDataId(dataName);
