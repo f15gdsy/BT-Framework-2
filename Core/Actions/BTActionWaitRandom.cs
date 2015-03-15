@@ -3,6 +3,10 @@ using System.Collections;
 
 namespace BT {
 
+	/// <summary>
+	/// BTActionWaitRandom is almost the same as BTActionWait, 
+	/// except every time it is about to execute, the waiting time is randomly generated in a specified range.
+	/// </summary>
 	public class BTActionWaitRandom : BTAction {
 		private float _startTime;
 		private float _interval;

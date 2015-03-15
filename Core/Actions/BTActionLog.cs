@@ -3,6 +3,10 @@ using System.Collections;
 
 namespace BT {
 
+	/// <summary>
+	/// BTActionLog is an action node that performs a Unity log.
+	/// It returns success after logging once.
+	/// </summary>
 	public class BTActionLog : BTAction {
 
 		private string _text;

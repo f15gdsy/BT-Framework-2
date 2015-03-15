@@ -3,6 +3,10 @@ using System.Collections;
 
 namespace BT {
 
+	/// <summary>
+	/// BTActionWait is an action node that waits for a specified time.
+	/// It returns running during the wait, and returns success after that.
+	/// </summary>
 	public class BTActionWait : BTAction {
 		private float _startTime;
 

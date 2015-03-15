@@ -3,6 +3,14 @@ using System.Collections;
 
 namespace BT {
 
+	/// <summary>
+	/// BTActionResetData is an action node that reset a data in BTDatabase.
+	/// It provides three options:
+	/// 	- OnTick: reset the data on tick;
+	/// 	- OnClear: reset the data on clear;
+	/// 	- Both: reset the data on tick and on clear.
+	/// It is useful with the use of different decorators.
+	/// </summary>
 	public class BTActionResetData<T> : BTAction {
 		private string _setDataName;
 		private int _setDataId;

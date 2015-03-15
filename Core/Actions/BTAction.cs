@@ -3,6 +3,10 @@ using System.Collections;
 
 namespace BT {
 
+	/// <summary>
+	/// BTAction is the base class for action nodes.
+	/// It is where the actual gameplay logic happens.
+	/// </summary>
 	public class BTAction : BTNode {
 
 		private BTActionStatus _status = BTActionStatus.Ready;
@@ -38,8 +42,19 @@ namespace BT {
 			}
 		}
 
+		/// <summary>
+		/// Called when the action node is about to execute.
+		/// </summary>
 		protected virtual void Enter () {}
+
+		/// <summary>
+		/// Called every frame if the action node is active.
+		/// </summary>
 		protected virtual BTResult Execute () {return BTResult.Failed;}
+
+		/// <summary>
+		/// Called when the action node finishes.
+		/// </summary>
 		protected virtual void Exit () {}
 
 
