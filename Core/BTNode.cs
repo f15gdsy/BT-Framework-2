@@ -10,13 +10,16 @@ namespace BT {
 
 		public string name {get; set;}
 		public string details {get; set;}
+		public bool isRunning {get; set;}
 
 
 		public virtual void Activate (BTDatabase database) {
 			_database = database;
 		}
 		public virtual BTResult Tick () {return BTResult.Failed;}
-		public virtual void Clear () {}
+		public virtual void Clear () {
+			isRunning = false;
+		}
 	}
 
 }

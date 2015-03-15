@@ -40,7 +40,8 @@ public class BTTreeWindow: EditorWindow {
 		}
 
 		if (_previousTree == null || _previousTree.GetType() != tree.GetType()) {
-			BTNode root = tree.Init();
+			BTNode root = tree.root == null ? tree.Init() : tree.root;
+
 			_levelToCount = new Dictionary<int, int>();
 			_info = ParseNodeInfo(root, 0, 0);
 
@@ -145,8 +146,12 @@ public class BTTreeWindow: EditorWindow {
 		info.positionX = selfX + parentX;
 
 		foreach (BTNodeInfo childInfo in info.childrenInfo) {
+			Color color = Color.white;
+			if (childInfo.node.isRunning) {
+				color = Color.green;
+			}
 			Rect childRect = DrawNodeInfo(childInfo, info);
-			DrawPolygonLine(rect, childRect);
+			DrawPolygonLine(rect, childRect, color);
 		}
 
 		string name = info.node.name != null ? info.node.name : info.node.GetType().ToString();
@@ -158,12 +163,14 @@ public class BTTreeWindow: EditorWindow {
 	}
 	
 
-	private static void DrawPolygonLine (Rect rect1, Rect rect2) {
+	private static void DrawPolygonLine (Rect rect1, Rect rect2, Color color) {
 		float midY = Mathf.Min(rect1.center.y, rect2.center.y) + Mathf.Abs(rect1.center.y - rect2.center.y) / 2;
 		Vector3 rect1Point = new Vector3(rect1.center.x, rect1.center.y);
 		Vector3 midRect1Point = new Vector3(rect1.center.x, midY);
 		Vector3 midRect2Point = new Vector3(rect2.center.x, midY);
 		Vector3 rect2Point = new Vector3(rect2.center.x, rect2.center.y);
+
+		Handles.color = color;
 
 		Handles.DrawPolyLine(new Vector3[] {
 			rect1Point, 

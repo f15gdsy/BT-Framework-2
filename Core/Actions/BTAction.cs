@@ -9,23 +9,29 @@ namespace BT {
 
 
 		sealed public override BTResult Tick () {
-			BTResult result = BTResult.Success;
+			BTResult tickResult = BTResult.Success;
 
 			if (_status == BTActionStatus.Ready) {
 				Enter();
 				_status = BTActionStatus.Running;
 			}
 			if (_status == BTActionStatus.Running) {
-				result = Execute();
-				if (result != BTResult.Running) {
+				tickResult = Execute();
+				if (tickResult != BTResult.Running) {
 					Exit();
 					_status = BTActionStatus.Ready;
+					isRunning = false;
+				}
+				else {
+					isRunning = true;
 				}
 			}
-			return result;
+			return tickResult;
 		}
 
 		public override void Clear () {
+			base.Clear();
+
 			if (_status != BTActionStatus.Ready) {	// not cleared yet
 				Exit();
 				_status = BTActionStatus.Ready;

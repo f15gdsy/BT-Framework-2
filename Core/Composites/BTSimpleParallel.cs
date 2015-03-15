@@ -36,16 +36,18 @@ namespace BT {
 				Debug.LogError("Primary Child not set!");
 			}
 
-			BTResult result = _primaryChild.Tick();
+			BTResult primaryChildResult = _primaryChild.Tick();
 
-			if (result == BTResult.Running) {
+			if (primaryChildResult == BTResult.Running) {
 				RunBackground();
+				isRunning = true;
 				return BTResult.Running;
 			}
 			else {
 				_shouldClearPrimaryChild = false;
 				_primaryChild.Clear();
-				return result;
+				isRunning = false;
+				return primaryChildResult;
 			}
 		}
 

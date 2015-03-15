@@ -16,6 +16,8 @@ namespace BT {
 		}
 
 		public override void Clear () {
+			base.Clear();
+
 			switch (clearOpt) {
 			case BTClearOpt.Default:
 				if (_activeChildIndex != -1) {
@@ -72,6 +74,7 @@ namespace BT {
 				
 				switch (activeChild.Tick()) {
 				case BTResult.Running:
+					isRunning = true;
 					return BTResult.Running;
 				case BTResult.Success:
 					activeChild.Clear();
@@ -79,11 +82,13 @@ namespace BT {
 				case BTResult.Failed:
 					activeChild.Clear();
 					_activeChildIndex = -1;
+					isRunning = false;
 					return BTResult.Failed;
 				}
 			}
 
 			_activeChildIndex = -1;
+			isRunning = false;
 			return BTResult.Success;
 		}
 

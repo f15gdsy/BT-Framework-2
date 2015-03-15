@@ -23,6 +23,7 @@ namespace BT {
 					}
 					_activeChildIndex = i;
 					_previousSuccessChildIndex = -1;
+					isRunning = true;
 					return BTResult.Running;
 
 				case BTResult.Success:
@@ -32,6 +33,7 @@ namespace BT {
 					child.Clear();
 					_activeChildIndex = -1;
 					_previousSuccessChildIndex = i;
+					isRunning = false;
 					return BTResult.Success;
 
 				case BTResult.Failed:	
@@ -42,10 +44,13 @@ namespace BT {
 
 			_activeChildIndex = -1;
 			_previousSuccessChildIndex = -1;
+			isRunning = false;
 			return BTResult.Failed;
 		}
 
 		public override void Clear () {
+			base.Clear();
+
 			switch (clearOpt) {
 			case BTClearOpt.Default:
 				if (_activeChildIndex != -1) {
