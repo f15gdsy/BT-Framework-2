@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 namespace BT {
@@ -26,6 +26,12 @@ namespace BT {
 	public enum BTLogic {
 		And,
 		Or,
+	}
+
+	public enum BTExecuteOpt {
+		OnTick,
+		OnClear,
+		Both,
 	}
 
 	public enum BTDataReadOpt {

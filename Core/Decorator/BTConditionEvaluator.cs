@@ -13,6 +13,7 @@ namespace BT {
 	public class BTConditionEvaluator : BTDecorator {
 
 		private List<BTConditional> _conditionals;
+		private List<bool> _conditionalInverts;
 		public BTLogic logicOpt;
 		public bool reevaludateEveryTick;
 
@@ -28,6 +29,7 @@ namespace BT {
 
 		public BTConditionEvaluator (BTLogic logicOpt, bool reevaluateEveryTick, BTNode child = null) : base (child) {
 			this._conditionals = new List<BTConditional>();
+			this._conditionalInverts = new List<bool>();
 			this.logicOpt = logicOpt;
 			this.reevaludateEveryTick = reevaluateEveryTick;
 		}
@@ -44,8 +46,11 @@ namespace BT {
 			if (_previousResult != BTResult.Running || reevaludateEveryTick) {
 				switch (logicOpt) {
 				case BTLogic.And:
+					int i = 0;
 					foreach (BTConditional conditional in _conditionals) {
-						if (!conditional.Check()) {
+						bool invert = _conditionalInverts[i++];
+						if ((invert && conditional.Check()) ||
+						    (!invert && !conditional.Check())) {
 							return BTResult.Failed;
 						}
 					}
@@ -53,8 +58,11 @@ namespace BT {
 
 				case BTLogic.Or:
 					bool anySuccess = false;
+					i = 0;
 					foreach (BTConditional conditional in _conditionals) {
-						if (conditional.Check()) {
+						bool invert = _conditionalInverts[i++];
+						if ((invert && !conditional.Check()) ||
+						    (!invert && conditional.Check())) {
 							anySuccess = true;
 							break;
 						}
@@ -76,14 +84,17 @@ namespace BT {
 			_previousResult = BTResult.Success;
 		}
 
-		public void AddConditional (BTConditional conditional) {
+		public void AddConditional (BTConditional conditional, bool invertResult = false) {
 			if (!_conditionals.Contains(conditional)) {
 				_conditionals.Add(conditional);
+				_conditionalInverts.Add(invertResult);
 			}
 		}
 
 		public void RemoveConditional (BTConditional conditional) {
+ 			int index = _conditionals.IndexOf(conditional);
 			_conditionals.Remove(conditional);
+			_conditionalInverts.RemoveAt(index);
 		}
 	}
 

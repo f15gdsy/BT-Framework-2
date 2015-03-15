@@ -15,10 +15,10 @@ namespace BT {
 		private string _setDataName;
 		private int _setDataId;
 		private T _rhs;
-		private ResetOpt _resetOpt;
+		private BTExecuteOpt _resetOpt;
 
 
-		public BTActionResetData (string setDataName, T rhs, ResetOpt resetOpt) {
+		public BTActionResetData (string setDataName, T rhs, BTExecuteOpt resetOpt) {
 			_setDataName = setDataName;
 			_rhs = rhs;
 			_resetOpt = resetOpt;
@@ -31,7 +31,7 @@ namespace BT {
 		}
 
 		protected override BTResult Execute () {
-			if (_resetOpt != ResetOpt.OnClear) {
+			if (_resetOpt != BTExecuteOpt.OnClear) {
 				_database.SetData<T>(_setDataId, _rhs);
 			}
 			return BTResult.Success;
@@ -40,15 +40,9 @@ namespace BT {
 		public override void Clear () {
 			base.Clear ();
 
-			if (_resetOpt != ResetOpt.OnTick) {
+			if (_resetOpt != BTExecuteOpt.OnTick) {
 				_database.SetData<T>(_setDataId, _rhs);
 			}
-		}
-
-		public enum ResetOpt {
-			OnTick,
-			OnClear,
-			Both,
 		}
 	}
 
