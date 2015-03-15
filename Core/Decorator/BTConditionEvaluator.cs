@@ -4,6 +4,12 @@ using System.Collections.Generic;
 
 namespace BT {
 
+	/// <summary>
+	/// BTConditionEvaluator is a decorator node.
+	/// It performs conditional check to determine if the child should be Tick.
+	/// 
+	/// It allows the child to tick if the conditional check return true, and returns what the child returns.
+	/// </summary>
 	public class BTConditionEvaluator : BTDecorator {
 
 		private List<BTConditional> _conditionals;

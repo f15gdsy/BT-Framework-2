@@ -4,13 +4,20 @@ using System.Collections.Generic;
 
 namespace BT {
 
+	/// <summary>
+	/// BTComposite is the base class for composite nodes.
+	/// </summary>
 	public class BTComposite : BTNode {
 
 		private List<BTNode> _children;
-		private List<BTNode> _selectedChildrenForClear;
+		private List<BTNode> _selectedChildrenForClear;	// Used for BTClearOpt.Selected & BTClearOpt.DefaultAndSelected
 
+		/// <summary>
+		/// There are different options for Clear method.
+		/// The actually implementation depends on different types of composite nodes.
+		/// </summary>
 		public BTClearOpt clearOpt {get; set;}
-		public BTAbortOpt abortOpt {get; set;}
+//		public BTAbortOpt abortOpt {get; set;}
 		public List<BTNode> children {
 			get {
 				if (_children == null) {

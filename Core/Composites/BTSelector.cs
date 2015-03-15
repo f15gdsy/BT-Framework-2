@@ -3,6 +3,16 @@ using System.Collections;
 
 namespace BT {
 
+	/// <summary>
+	/// BTSelector is a composite that:
+	/// 
+	/// It will return success as soon as one of its child tasks return success. 
+	/// If a child task returns failure then it will sequentially run the next task. 
+	/// If no child task returns success then it will return failure.
+	/// If a child node return running it will return running.
+	/// 
+	/// Default clear option is to clear the current active child.
+	/// </summary>
 	public class BTSelector : BTComposite {
 
 		private int _activeChildIndex = -1;

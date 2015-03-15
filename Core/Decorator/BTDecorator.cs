@@ -2,7 +2,12 @@
 using System.Collections;
 
 namespace BT {
-	
+
+	/// <summary>
+	/// BTDecorator is the base class for decorator nodes.
+	/// It has and only has one child.
+	/// Usually it is used to alter the behavior of its child.
+	/// </summary>
 	public class BTDecorator : BTNode {
 
 		public BTNode child {get; set;}

@@ -3,6 +3,12 @@ using System.Collections;
 
 namespace BT {
 
+	/// <summary>
+	/// BTCompareData is a conditional inheriting from BTConditional.
+	/// 
+	/// It performs comparison between the provided data with what's found in BTDatabase.
+	/// It returns true if they are equal, false otherwise.
+	/// </summary>
 	public class BTCompareData<T> : BTConditional {
 		private string _readDataName;
 		private int _readDataId;

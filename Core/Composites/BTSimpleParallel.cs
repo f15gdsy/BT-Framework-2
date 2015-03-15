@@ -4,6 +4,14 @@ using System.Collections.Generic;
 
 namespace BT {
 
+	/// <summary>
+	/// BTSimpleParallel is a composite node that has a primary child and other children (background).
+	/// 
+	/// If primary child returns running, the background children nodes will run, and it returns running.
+	/// If primary child returns failure or success, the background children will not run and it returns failure or success accordingly.
+	/// 
+	/// Default clear option is to clear the primary child & any running background children.
+	/// </summary>
 	public class BTSimpleParallel : BTComposite {
 
 		private BTNode _primaryChild;

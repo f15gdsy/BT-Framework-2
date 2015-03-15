@@ -3,9 +3,23 @@ using System.Collections;
 
 namespace BT {
 
+	/// <summary>
+	/// BTRepeater is a decorator node that keeps the child tick for a number of times, or forever.
+	/// </summary>
 	public class BTRepeater : BTDecorator {
+		/// <summary>
+		/// How many times can the child tick.
+		/// </summary>
 		public int count {get; set;}
+
+		/// <summary>
+		/// Tick the child forever.
+		/// </summary>
 		public bool repeatForever {get; set;}
+
+		/// <summary>
+		/// Should end the repetition if the child return failure.
+		/// </summary>
 		public bool endOnFailure {get; set;}
 
 		private int _currentCount;

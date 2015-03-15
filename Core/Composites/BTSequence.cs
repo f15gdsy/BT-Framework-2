@@ -3,6 +3,16 @@ using System.Collections;
 
 namespace BT {
 
+	/// <summary>
+	/// BTSequence is a composite node that ticks children from left to right.
+	/// 
+	/// It will return failure as soon as one of its child node return failure. 
+	/// If a child node returns success then it will sequentially run the next task. 
+	/// If all child nodes return success then it will return success.
+	/// If a child returns running it will return running.
+	/// 
+	/// Default clear option is to clear the current active child.
+	/// </summary>
 	public class BTSequence : BTComposite {
 
 		private int _activeChildIndex;
