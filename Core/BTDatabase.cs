@@ -48,7 +48,7 @@ namespace BT {
 
 		public bool CheckDataNull (string dataName) {
 			int dataId = IndexOfDataId(dataName);
-			if (dataId == -1) Debug.LogError("BTDatabase: Data for " + dataName + " does not exist!");
+			if (dataId == -1) return true;
 
 			return CheckDataNull(dataId);
 		}

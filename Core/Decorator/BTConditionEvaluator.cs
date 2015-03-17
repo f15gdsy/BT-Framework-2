@@ -9,6 +9,10 @@ namespace BT {
 	/// It performs conditional check to determine if the child should be Tick.
 	/// 
 	/// It allows the child to tick if the conditional check return true, and returns what the child returns.
+	/// 
+	/// It has two clear options
+	/// 	- OnAbortRunning: if Clear is called, it will only clear its child, if it was running.
+	/// 	- OnNotRunning: if Clear is called, it will clear its child no matter what.
 	/// </summary>
 	public class BTConditionEvaluator : BTDecorator {
 
@@ -16,22 +20,25 @@ namespace BT {
 		private List<bool> _conditionalInverts;
 		public BTLogic logicOpt;
 		public bool reevaludateEveryTick;
+		public ClearChildOpt clearOpt;
 
 		private BTResult _previousResult = BTResult.Success;
 
 		
 		
-		public BTConditionEvaluator (List<BTConditional> conditionals, BTLogic logicOpt, bool reevaluateEveryTick, BTNode child = null) : base (child) {
+		public BTConditionEvaluator (List<BTConditional> conditionals, BTLogic logicOpt, bool reevaluateEveryTick, ClearChildOpt clearOpt, BTNode child = null) : base (child) {
 			this._conditionals = conditionals;
 			this.logicOpt = logicOpt;
 			this.reevaludateEveryTick = reevaluateEveryTick;
+			this.clearOpt = clearOpt;
 		}
 
-		public BTConditionEvaluator (BTLogic logicOpt, bool reevaluateEveryTick, BTNode child = null) : base (child) {
+		public BTConditionEvaluator (BTLogic logicOpt, bool reevaluateEveryTick, ClearChildOpt clearOpt, BTNode child = null) : base (child) {
 			this._conditionals = new List<BTConditional>();
 			this._conditionalInverts = new List<bool>();
 			this.logicOpt = logicOpt;
 			this.reevaludateEveryTick = reevaluateEveryTick;
+			this.clearOpt = clearOpt;
 		}
 
 		public override void Activate (BTDatabase database) {
@@ -75,12 +82,20 @@ namespace BT {
 			}
 
 			_previousResult = child.Tick();
+			if (_previousResult == BTResult.Running) {
+				isRunning = true;
+			}
 
 			return _previousResult;
 		}
 
 		public override void Clear () {
-			base.Clear();
+			if ((isRunning && clearOpt == ClearChildOpt.OnAbortRunning) ||
+			    clearOpt == ClearChildOpt.OnNotRunning) {
+				isRunning = false;
+				child.Clear();
+			}
+
 			_previousResult = BTResult.Success;
 		}
 
@@ -95,6 +110,12 @@ namespace BT {
  			int index = _conditionals.IndexOf(conditional);
 			_conditionals.Remove(conditional);
 			_conditionalInverts.RemoveAt(index);
+		}
+
+
+		public enum ClearChildOpt {
+			OnAbortRunning,
+			OnNotRunning,
 		}
 	}
 
