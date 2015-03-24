@@ -41,6 +41,8 @@ namespace BT {
 				if (endOnFailure && result == BTResult.Failed) {
 					return BTResult.Failed;
 				}
+
+				isRunning = true;
 				return BTResult.Running;
 			}
 			else if (_currentCount < count) {
@@ -57,6 +59,7 @@ namespace BT {
 				if (endOnFailure && result == BTResult.Failed) {
 					return BTResult.Failed;
 				}
+				isRunning = true;
 				return BTResult.Running;
 			}
 

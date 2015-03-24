@@ -22,7 +22,7 @@ namespace BT {
 		public bool reevaludateEveryTick;
 		public ClearChildOpt clearOpt;
 
-		private BTResult _previousResult = BTResult.Success;
+		private BTResult _previousResult = BTResult.Failed;
 
 		
 		
@@ -90,13 +90,17 @@ namespace BT {
 		}
 
 		public override void Clear () {
-			if ((isRunning && clearOpt == ClearChildOpt.OnAbortRunning) ||
+			if ((isRunning && clearOpt == ClearChildOpt.OnAbortRunning) || 
+			    (_previousResult == BTResult.Success && clearOpt == ClearChildOpt.OnStopRunning) ||
 			    clearOpt == ClearChildOpt.OnNotRunning) {
 				isRunning = false;
 				child.Clear();
 			}
 
-			_previousResult = BTResult.Success;
+			if (clearTick != null) {
+				clearTick.Tick();
+			}
+			_previousResult = BTResult.Failed;
 		}
 
 		public void AddConditional (BTConditional conditional, bool invertResult = false) {
@@ -115,6 +119,7 @@ namespace BT {
 
 		public enum ClearChildOpt {
 			OnAbortRunning,
+			OnStopRunning,
 			OnNotRunning,
 		}
 	}

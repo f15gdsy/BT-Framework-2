@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -15,6 +16,7 @@ namespace BT {
 		public string name {get; set;}
 		public string details {get; set;}
 		public bool isRunning {get; set;}
+		public BTNode clearTick {get; set;}
 
 		/// <summary>
 		/// Activate the node, which is called on Start of a BTTree.
@@ -23,6 +25,10 @@ namespace BT {
 		/// <param name="database">Database.</param>
 		public virtual void Activate (BTDatabase database) {
 			_database = database;
+
+			if (clearTick != null) {
+				clearTick.Activate(database);
+			}
 		}
 
 		/// <summary>
@@ -35,6 +41,10 @@ namespace BT {
 		/// </summary>
 		public virtual void Clear () {
 			isRunning = false;
+
+			if (clearTick != null) {
+				clearTick.Tick();
+			}
 		}
 	}
 

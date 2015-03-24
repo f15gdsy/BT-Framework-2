@@ -25,7 +25,7 @@ namespace BT.Ex {
 		protected override BTResult Execute () {
 			// If an animation is not loop, and to make it return success after one play, 
 			// you needs to set the transition in animator controller.
-			if (_justEntered || _animator.GetCurrentAnimatorStateInfo(0).nameHash == _stateHash) {
+			if (_justEntered || _animator.GetCurrentAnimatorStateInfo(0).fullPathHash == _stateHash) {
 				if (_justEntered) {
 					_justEntered = false;
 				}
